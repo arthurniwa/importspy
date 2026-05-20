@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="InfinityImports.Core/InfinityImports.Core.csproj" />
+  <Project Path="InfinityImports.Web/InfinityImports.Web.csproj" />
+</Solution>

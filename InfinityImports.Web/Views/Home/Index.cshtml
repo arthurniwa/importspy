@@ -1,0 +1,57 @@
+﻿@model IEnumerable<InfinityImports.Core.Models.Produto>
+@{
+    ViewData["Title"] = "Catálogo";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-2" style="color:#1A3FD4;">Infinity Imports</h1>
+    <p class="text-center text-white-50 mb-5">Produtos importados do Paraguai</p>
+
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
+        <a asp-action="Index" class="btn btn-sm @(ViewBag.CategoriaAtual == null ? "btn-primary" : "btn-outline-secondary")">
+            Todos
+        </a>
+        @foreach (var cat in ViewBag.Categorias as IEnumerable<InfinityImports.Core.Models.Categoria>)
+        {
+            <a asp-action="Index" asp-route-categoriaId="@cat.Id"
+               class="btn btn-sm @(ViewBag.CategoriaAtual == cat.Id ? "btn-primary" : "btn-outline-secondary")">
+                @cat.Nome
+            </a>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center text-white-50">Nenhum produto disponível no momento.</p>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var p in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a asp-action="Produto" asp-route-id="@p.Id" class="text-decoration-none">
+                        <div class="card h-100" style="background:#111; border:1px solid #222;">
+                            @if (p.Foto != null)
+                            {
+                                <img src="@p.Foto" class="card-img-top" style="height:200px; object-fit:cover;" />
+                            }
+                            else
+                            {
+                                <div style="height:200px; background:#1a1a1a; display:flex; align-items:center; justify-content:center;">
+                                    <span class="text-white-50">Sem foto</span>
+                                </div>
+                            }
+                            <div class="card-body">
+                                <p class="card-title text-white mb-1">@p.Nome</p>
+                                <p class="text-white-50 small mb-1">@p.Categoria.Nome</p>
+                                <p style="color:#1A3FD4; font-weight:bold;">R$ @p.PrecoFinal.ToString("F2")</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>

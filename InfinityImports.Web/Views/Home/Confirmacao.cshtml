@@ -1,0 +1,24 @@
+@model InfinityImports.Core.Models.Encomenda
+@{
+    ViewData["Title"] = "Encomenda Confirmada";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+}
+
+<div class="container py-5 text-center" style="max-width:520px;">
+    <div style="font-size:3rem;">✅</div>
+    <h2 class="text-white mt-3">Encomenda registrada!</h2>
+    <p class="text-white-50 mt-2">
+        Obrigado, <strong class="text-white">@Model.ClienteNome</strong>!<br />
+        Sua encomenda de <strong class="text-white">@Model.Produto.Nome</strong> foi registrada.
+    </p>
+
+    @if (Model.Viagem != null)
+    {
+        <p class="text-white-50">
+            Previsão de chegada:
+            <strong class="text-white">@Model.Viagem.DataPrevista.ToString("dd/MM/yyyy")</strong>
+        </p>
+    }
+
+    <a asp-action="Index" class="btn btn-primary mt-4">Ver mais produtos</a>
+</div>

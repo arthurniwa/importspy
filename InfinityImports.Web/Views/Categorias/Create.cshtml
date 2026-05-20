@@ -1,0 +1,16 @@
+@model InfinityImports.Core.Models.Categoria
+@{
+    ViewData["Title"] = "Nova Categoria";
+}
+
+<h2 class="mb-4">Nova Categoria</h2>
+
+<form asp-action="Create" method="post" style="max-width:400px;">
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input asp-for="Nome" class="form-control bg-dark text-white border-secondary" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancelar</a>
+</form>

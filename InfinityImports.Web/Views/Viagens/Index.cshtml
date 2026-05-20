@@ -1,0 +1,41 @@
+@model IEnumerable<InfinityImports.Core.Models.Viagem>
+@{
+    ViewData["Title"] = "Viagens";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Viagens</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Nova Viagem</a>
+</div>
+
+<table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            <th>Data Prevista</th>
+            <th>Retorno</th>
+            <th>Status</th>
+            <th>Encomendas</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model)
+        {
+            <tr>
+                <td>@v.DataPrevista.ToString("dd/MM/yyyy")</td>
+                <td>@(v.DataRetorno.HasValue ? v.DataRetorno.Value.ToString("dd/MM/yyyy") : "—")</td>
+                <td>
+                    <span class="badge @(v.Status == InfinityImports.Core.Models.StatusViagem.Planejada ? "bg-primary" :
+                                         v.Status == InfinityImports.Core.Models.StatusViagem.Concluida ? "bg-success" : "bg-secondary")">
+                        @v.Status
+                    </span>
+                </td>
+                <td>@v.Encomendas.Count</td>
+                <td>
+                    <a asp-action="Detalhes" asp-route-id="@v.Id" class="btn btn-sm btn-outline-light">Ver</a>
+                    <a asp-action="Edit" asp-route-id="@v.Id" class="btn btn-sm btn-outline-light">Editar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,70 @@
+@model IEnumerable<InfinityImports.Core.Models.Produto>
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Produtos</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Novo Produto</a>
+</div>
+
+<table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            <th>Foto</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Custo (USD)</th>
+            <th>Margem</th>
+            <th>Preço Final</th>
+            <th>Estoque</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>
+                    @if (p.Foto != null)
+                    {
+                        <img src="@p.Foto" width="40" height="40" style="object-fit:cover;border-radius:4px;" />
+                    }
+                </td>
+                <td>@p.Nome</td>
+                <td>@p.Categoria.Nome</td>
+                <td>$ @p.CustoUsd.ToString("F2")</td>
+                <td>@((p.Margem * 100).ToString("F0"))%</td>
+                <td>R$ @p.PrecoFinal.ToString("F2")</td>
+                <td>@p.Estoque</td>
+                <td>
+                    @if (p.Ativo)
+                    {
+                        <span class="badge bg-success me-1">Ativo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary me-1">Inativo</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-light">Editar</a>
+                    @if (p.Ativo)
+                    {
+                        <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="d-inline"
+                              onsubmit="return confirm('Desativar este produto?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Desativar</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Reativar" asp-route-id="@p.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-success">Reativar</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

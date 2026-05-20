@@ -1,0 +1,55 @@
+@model InfinityImports.Core.Models.Viagem
+@{
+    ViewData["Title"] = "Entrada de Estoque";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Entrada de Estoque</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+</div>
+
+<p class="text-white-50">
+    Viagem de <strong class="text-white">@Model.DataPrevista.ToString("dd/MM/yyyy")</strong> —
+    informe quantas unidades de cada produto foram trazidas.
+</p>
+
+<form asp-action="EntradaEstoque" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    @{
+        var produtos = Model.Encomendas
+            .GroupBy(e => e.Produto)
+            .Select(g => new { Produto = g.Key, TotalEncomendado = g.Sum(e => e.Quantidade) })
+            .ToList();
+    }
+
+    <table class="table table-dark table-hover mb-4">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Total encomendado</th>
+                <th>Qtd trazida</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in produtos)
+            {
+                <tr>
+                    <td>@item.Produto.Nome</td>
+                    <td>@item.TotalEncomendado</td>
+                    <td>
+                        <input type="number" name="quantidades[@item.Produto.Id]"
+                               value="@item.TotalEncomendado" min="0"
+                               class="form-control form-control-sm bg-dark text-white border-secondary"
+                               style="width:100px;" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary"
+            onclick="return confirm('Confirmar entrada de estoque e concluir viagem?')">
+        Confirmar e concluir viagem
+    </button>
+</form>
