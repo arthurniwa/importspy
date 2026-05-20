@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Encomendar";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+    var produto = ViewBag.Produto as InfinityImports.Core.Models.Produto;
+    var viagem = ViewBag.ProximaViagem as InfinityImports.Core.Models.Viagem;
+}
+
+<div class="container py-5" style="max-width:520px;">
+    <a asp-action="Produto" asp-route-id="@produto!.Id" class="text-white-50 small d-block mb-4">← Voltar</a>
+
+    <h2 class="text-white mb-1">Encomendar</h2>
+    <p class="text-white-50 mb-4">@produto.Nome — <strong style="color:#1A3FD4;">R$ @produto.PrecoFinal.ToString("F2")</strong></p>
+
+    @if (viagem != null)
+    {
+        <div class="alert" style="background:#111; border:1px solid #1A3FD4; color:#fff;">
+            Próxima viagem: <strong>@viagem.DataPrevista.ToString("dd/MM/yyyy")</strong>
+        </div>
+    }
+
+    <form asp-action="Encomendar" method="post">
+        <input type="hidden" name="ProdutoId" value="@produto.Id" />
+        <input type="hidden" name="ViagemId" value="@viagem?.Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Seu nome</label>
+            <input name="ClienteNome" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">WhatsApp</label>
+            <input name="ClienteTelefone" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Quantidade</label>
+            <input name="Quantidade" type="number" min="1" value="1"
+                   class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Observações</label>
+            <textarea name="Observacoes" rows="2" class="form-control bg-dark text-white border-secondary"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Confirmar Encomenda</button>
+    </form>
+</div>

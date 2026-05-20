@@ -1,0 +1,26 @@
+@model InfinityImports.Core.Models.Viagem
+@{
+    ViewData["Title"] = "Editar Viagem";
+}
+
+<h2 class="mb-4">Editar Viagem</h2>
+
+<form asp-action="Edit" method="post" style="max-width:480px;">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label class="form-label">Data Prevista</label>
+        <input asp-for="DataPrevista" type="date" class="form-control bg-dark text-white border-secondary" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select asp-for="Status" class="form-select bg-dark text-white border-secondary"
+                asp-items="Html.GetEnumSelectList<InfinityImports.Core.Models.StatusViagem>()">
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Observações</label>
+        <textarea asp-for="Observacoes" rows="3" class="form-control bg-dark text-white border-secondary"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancelar</a>
+</form>

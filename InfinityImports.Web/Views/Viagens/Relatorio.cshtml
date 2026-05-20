@@ -1,0 +1,76 @@
+@model InfinityImports.Web.Models.RelatorioViagemViewModel
+@{
+    ViewData["Title"] = "Relatório da Viagem";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Relatório — @Model.DataViagem.ToString("dd/MM/yyyy")</h2>
+    <a asp-action="Detalhes" asp-route-id="@Model.ViagemId" class="btn btn-outline-secondary">Voltar</a>
+</div>
+
+<div class="row g-3 mb-5">
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6 class="text-white-50">Encomendas</h6>
+            <h3 class="text-white">@Model.TotalEncomendas</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6 class="text-white-50">Custo total (USD)</h6>
+            <h3 class="text-white">$ @Model.CustoTotalUsd.ToString("F2")</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6 class="text-white-50">Custo total (BRL)</h6>
+            <h3 class="text-white">R$ @Model.CustoTotalBrl.ToString("F2")</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6 class="text-white-50">Total arrecadado</h6>
+            <h3 class="text-white">R$ @Model.TotalArrecadado.ToString("F2")</h3>
+        </div>
+    </div>
+</div>
+
+<div class="card p-4 mb-4" style="border-color: @(Model.LucroLiquido >= 0 ? "#198754" : "#dc3545");">
+    <h5 class="text-white-50 mb-1">Lucro líquido</h5>
+    <h2 style="color: @(Model.LucroLiquido >= 0 ? "#198754" : "#dc3545");">
+        R$ @Model.LucroLiquido.ToString("F2")
+    </h2>
+    <small class="text-white-50">Cotação usada: R$ @Model.CotacaoUsada.ToString("F4")</small>
+</div>
+
+<h5 class="mb-3">Detalhamento por produto</h5>
+
+<table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Qtd</th>
+            <th>Custo unit. (USD)</th>
+            <th>Custo total (BRL)</th>
+            <th>Preço vendido</th>
+            <th>Total vendido</th>
+            <th>Lucro</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Itens)
+        {
+            <tr>
+                <td>@item.ProdutoNome</td>
+                <td>@item.Quantidade</td>
+                <td>$ @item.CustoUnitarioUsd.ToString("F2")</td>
+                <td>R$ @item.CustoTotalBrl.ToString("F2")</td>
+                <td>R$ @item.PrecoVendido.ToString("F2")</td>
+                <td>R$ @item.TotalVendido.ToString("F2")</td>
+                <td style="color: @(item.Lucro >= 0 ? "#198754" : "#dc3545");">
+                    R$ @item.Lucro.ToString("F2")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

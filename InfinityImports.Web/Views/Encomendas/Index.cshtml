@@ -1,0 +1,53 @@
+@model IEnumerable<InfinityImports.Core.Models.Encomenda>
+@{
+    ViewData["Title"] = "Encomendas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Encomendas</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Nova Encomenda</a>
+</div>
+
+<table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Produto</th>
+            <th>Qtd</th>
+            <th>Preço</th>
+            <th>Viagem</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.DataEncomenda.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                <td>@e.ClienteNome</td>
+                <td>@e.Produto.Nome</td>
+                <td>@e.Quantidade</td>
+                <td>R$ @e.PrecoNoMomento.ToString("F2")</td>
+                <td>@(e.Viagem != null ? e.Viagem.DataPrevista.ToString("dd/MM/yyyy") : "—")</td>
+                <td>
+                    <span class="badge @(e.Status == InfinityImports.Core.Models.StatusEncomenda.Pendente ? "bg-warning text-dark" :
+                                         e.Status == InfinityImports.Core.Models.StatusEncomenda.Entregue ? "bg-success" :
+                                         e.Status == InfinityImports.Core.Models.StatusEncomenda.Cancelada ? "bg-danger" : "bg-primary")">
+                        @e.Status
+                    </span>
+                </td>
+                <td>
+                    <form asp-action="AtualizarStatus" method="post" class="d-flex gap-1">
+                        <input type="hidden" name="id" value="@e.Id" />
+                        <select name="status" class="form-select form-select-sm bg-dark text-white border-secondary"
+                                asp-items="Html.GetEnumSelectList<InfinityImports.Core.Models.StatusEncomenda>()"
+                                onchange="this.form.submit()">
+                        </select>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

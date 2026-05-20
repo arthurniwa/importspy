@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Entrar";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+}
+
+<div class="container py-5" style="max-width:400px;">
+    <h2 class="text-white mb-4">Entrar</h2>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger py-2">Email ou senha inválidos.</div>
+    }
+
+    <form asp-action="Login" method="post">
+        <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input name="email" type="email" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input name="senha" type="password" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        <p class="text-center text-white-50 mt-3 small">
+            Não tem conta? <a asp-action="Registrar" style="color:#1A3FD4;">Criar conta</a>
+        </p>
+    </form>
+</div>

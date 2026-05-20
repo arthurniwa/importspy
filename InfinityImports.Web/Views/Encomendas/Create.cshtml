@@ -1,0 +1,44 @@
+@model InfinityImports.Core.Models.Encomenda
+@{
+    ViewData["Title"] = "Nova Encomenda";
+}
+
+<h2 class="mb-4">Nova Encomenda</h2>
+
+<form asp-action="Create" method="post" style="max-width:520px;">
+    <div class="mb-3">
+        <label class="form-label">Cliente — Nome</label>
+        <input asp-for="ClienteNome" class="form-control bg-dark text-white border-secondary" />
+        <span asp-validation-for="ClienteNome" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Cliente — Telefone</label>
+        <input asp-for="ClienteTelefone" class="form-control bg-dark text-white border-secondary" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Produto</label>
+        <select asp-for="ProdutoId" asp-items="ViewBag.Produtos"
+                class="form-select bg-dark text-white border-secondary">
+            <option value="">Selecione...</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Viagem</label>
+        <select asp-for="ViagemId" asp-items="ViewBag.Viagens"
+                class="form-select bg-dark text-white border-secondary">
+            <option value="">Sem viagem definida</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Quantidade</label>
+        <input asp-for="Quantidade" type="number" min="1"
+               class="form-control bg-dark text-white border-secondary" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Observações</label>
+        <textarea asp-for="Observacoes" rows="2"
+                  class="form-control bg-dark text-white border-secondary"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancelar</a>
+</form>

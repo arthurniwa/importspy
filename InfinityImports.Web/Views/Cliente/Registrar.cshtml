@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Criar Conta";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+}
+
+<div class="container py-5" style="max-width:480px;">
+    <h2 class="text-white mb-4">Criar Conta</h2>
+
+    @if (ViewBag.Erros != null)
+    {
+        <div class="alert alert-danger">
+            @foreach (var erro in ViewBag.Erros as List<string>)
+            {
+                <div>@erro</div>
+            }
+        </div>
+    }
+
+    <form asp-action="Registrar" method="post">
+        <div class="mb-3">
+            <label class="form-label">Nome completo</label>
+            <input name="nomeCompleto" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input name="email" type="email" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">WhatsApp</label>
+            <input name="telefone" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input name="senha" type="password" class="form-control bg-dark text-white border-secondary" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Criar conta</button>
+        <p class="text-center text-white-50 mt-3 small">
+            Já tem conta? <a asp-action="Login" style="color:#1A3FD4;">Entrar</a>
+        </p>
+    </form>
+</div>

@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card text-white bg-dark border-primary p-3">
+            <h6 class="text-muted-50">Encomendas pendentes</h6>
+            <h2>@ViewBag.TotalEncomendas</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-dark border-primary p-3">
+            <h6 class="text-muted-50c">Produtos ativos</h6>
+            <h2>@ViewBag.TotalProdutos</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-dark border-primary p-3">
+            <h6 class="text-muted-50">Próxima viagem</h6>
+            @if (ViewBag.ProximaViagem != null)
+            {
+                <h5>@((DateTime)ViewBag.ProximaViagem.DataPrevista).ToString("dd/MM/yyyy")</h5>
+            }
+            else
+            {
+                <span class="text-muted-50">Nenhuma agendada</span>
+            }
+        </div>
+    </div>
+</div>
