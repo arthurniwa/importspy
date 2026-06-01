@@ -4,46 +4,67 @@
     Layout = "~/Views/Shared/_LayoutPublico.cshtml";
 }
 
-<div class="container py-5">
-    <h2 class="text-white mb-4">Minhas Encomendas</h2>
+<div class="sec">
+    <div class="wrap">
+        <div class="sec-head" style="margin-bottom:28px;">
+            <div>
+                <span class="mono" style="color:var(--cyan);display:block;margin-bottom:8px;">Minha conta</span>
+                <h2>Minhas Encomendas</h2>
+            </div>
+            <a asp-controller="Home" asp-action="Index" class="pub-btn pub-btn-ghost pub-btn-sm">
+                Ver catálogo
+            </a>
+        </div>
 
-    @if (!Model.Any())
-    {
-        <p class="text-white-50">Você ainda não fez nenhuma encomenda.</p>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-2">Ver produtos</a>
-    }
-    else
-    {
-        <table class="table table-dark table-hover">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Produto</th>
-                    <th>Qtd</th>
-                    <th>Valor</th>
-                    <th>Viagem prevista</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var e in Model)
-                {
-                    <tr>
-                        <td>@e.DataEncomenda.ToLocalTime().ToString("dd/MM/yyyy")</td>
-                        <td>@e.Produto.Nome</td>
-                        <td>@e.Quantidade</td>
-                        <td>R$ @e.PrecoNoMomento.ToString("F2")</td>
-                        <td>@(e.Viagem != null ? e.Viagem.DataPrevista.ToString("dd/MM/yyyy") : "—")</td>
-                        <td>
-                            <span class="badge @(e.Status == InfinityImports.Core.Models.StatusEncomenda.Entregue ? "bg-success" :
-                                                 e.Status == InfinityImports.Core.Models.StatusEncomenda.Cancelada ? "bg-danger" :
-                                                 e.Status == InfinityImports.Core.Models.StatusEncomenda.Chegou ? "bg-info" : "bg-primary")">
-                                @e.Status
-                            </span>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+        @if (!Model.Any())
+        {
+            <div style="text-align:center;padding:60px 0;">
+                <div style="font-size:3rem;margin-bottom:16px;">📦</div>
+                <p style="color:var(--txt-soft);margin-bottom:24px;">Você ainda não fez nenhuma encomenda.</p>
+                <a asp-controller="Home" asp-action="Index" class="pub-btn pub-btn-primary">
+                    Ver produtos
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="pub-table-wrap">
+                <table class="pub-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Produto</th>
+                            <th>Qtd</th>
+                            <th>Valor</th>
+                            <th>Viagem prevista</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var e in Model)
+                        {
+                            <tr>
+                                <td>@e.DataEncomenda.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                                <td>@e.Produto.Nome</td>
+                                <td>@e.Quantidade</td>
+                                <td>R$ @e.PrecoNoMomento.ToString("F2")</td>
+                                <td>@(e.Viagem != null ? e.Viagem.DataPrevista.ToString("dd/MM/yyyy") : "—")</td>
+                                <td>
+                                    @{
+                                        var badgeClass = e.Status switch {
+                                            InfinityImports.Core.Models.StatusEncomenda.Entregue  => "pub-badge-green",
+                                            InfinityImports.Core.Models.StatusEncomenda.Cancelada => "pub-badge-red",
+                                            InfinityImports.Core.Models.StatusEncomenda.Chegou    => "pub-badge-cyan",
+                                            _                                                      => "pub-badge-blue"
+                                        };
+                                    }
+                                    <span class="pub-badge @badgeClass">@e.Status</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 </div>

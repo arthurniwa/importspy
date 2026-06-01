@@ -4,21 +4,56 @@
     Layout = "~/Views/Shared/_LayoutPublico.cshtml";
 }
 
-<div class="container py-5 text-center" style="max-width:520px;">
-    <div style="font-size:3rem;">✅</div>
-    <h2 class="text-white mt-3">Encomenda registrada!</h2>
-    <p class="text-white-50 mt-2">
-        Obrigado, <strong class="text-white">@Model.ClienteNome</strong>!<br />
-        Sua encomenda de <strong class="text-white">@Model.Produto.Nome</strong> foi registrada.
-    </p>
+<div class="confirmacao-wrap">
+    <div class="confirmacao-card">
+        <div class="conf-icon">
+            <i class="bi bi-check-lg"></i>
+        </div>
 
-    @if (Model.Viagem != null)
-    {
-        <p class="text-white-50">
-            Previsão de chegada:
-            <strong class="text-white">@Model.Viagem.DataPrevista.ToString("dd/MM/yyyy")</strong>
+        <h2>Encomenda registrada!</h2>
+        <p>
+            Obrigado, <strong>@Model.ClienteNome</strong>!<br />
+            Sua encomenda de <strong>@Model.Produto.Nome</strong> foi registrada com sucesso.
         </p>
-    }
 
-    <a asp-action="Index" class="btn btn-primary mt-4">Ver mais produtos</a>
+        <div class="conf-detail">
+            <div class="conf-row">
+                <span class="conf-lbl">Produto</span>
+                <span class="conf-val">@Model.Produto.Nome</span>
+            </div>
+            <div class="conf-row">
+                <span class="conf-lbl">Quantidade</span>
+                <span class="conf-val">@Model.Quantidade un.</span>
+            </div>
+            <div class="conf-row">
+                <span class="conf-lbl">Valor</span>
+                <span class="conf-val">R$ @((Model.PrecoNoMomento * Model.Quantidade).ToString("F2"))</span>
+            </div>
+            @if (Model.Viagem != null)
+            {
+                <div class="conf-row">
+                    <span class="conf-lbl">Previsão de chegada</span>
+                    <span class="conf-val">@Model.Viagem.DataPrevista.ToString("dd/MM/yyyy")</span>
+                </div>
+            }
+            <div class="conf-row">
+                <span class="conf-lbl">Status</span>
+                <span class="conf-val" style="color:var(--cyan);">Pendente</span>
+            </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--txt-dim);">
+            Entraremos em contato via WhatsApp quando seu produto chegar.
+        </p>
+
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            <a asp-action="Index" class="pub-btn pub-btn-primary pub-btn-sm">Ver mais produtos</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Cliente" asp-action="MinhasEncomendas" class="pub-btn pub-btn-ghost pub-btn-sm">
+                    Minhas encomendas
+                </a>
+            }
+        </div>
+    </div>
 </div>

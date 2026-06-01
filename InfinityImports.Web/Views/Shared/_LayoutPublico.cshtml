@@ -5,44 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] — Infinity Imports</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-    <style>
-        body { background: #000; color: #fff; }
-        .navbar { background: #0a0a0a !important; border-bottom: 1px solid #1A3FD4; }
-        .navbar-brand { color: #1A3FD4 !important; font-weight: bold; letter-spacing: 1px; }
-        .btn-primary { background: #1A3FD4; border-color: #1A3FD4; }
-        .btn-primary:hover { background: #1535b0; border-color: #1535b0; }
-        .card { background: #111; border-color: #222; }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pub.css" asp-append-version="true" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm mb-2">
-        <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">INFINITY IMPORTS</a>
-            <div class="collapse navbar-collapse justify-content-end">
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <a asp-controller="Cliente" asp-action="MinhasEncomendas"
-                       class="btn btn-sm btn-outline-secondary me-2">Minhas Encomendas</a>
-                    <form asp-controller="Cliente" asp-action="Logout" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-outline-secondary">Sair</button>
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Cliente" asp-action="Login"
-                       class="btn btn-sm btn-outline-secondary me-2">Entrar</a>
-                    <a asp-controller="Cliente" asp-action="Registrar"
-                       class="btn btn-sm btn-primary">Criar conta</a>
-                }
+
+<!-- ── Util bar ──────────────────────────────────────── -->
+<div class="util">
+    <div class="wrap">
+        <span class="mono">Importação direta</span>
+        <span class="mono">Produtos <b>100% originais</b></span>
+        <span class="mono">Envio para todo o <b>Brasil</b></span>
+        <span class="mono">Até <b>12x</b> sem juros</span>
+        <span class="mono">Atendimento via <b>WhatsApp</b></span>
+    </div>
+</div>
+
+<!-- ── Header ────────────────────────────────────────── -->
+<header class="pub-header">
+    <div class="wrap bar">
+        <a asp-controller="Home" asp-action="Index" class="logo-link">
+            <span class="logo-symbol">∞</span>
+            <div class="logo-name">
+                <div class="l1">INFINITY</div>
+                <div class="l2">IMPORTS</div>
+            </div>
+        </a>
+
+        <nav class="main-nav">
+            <a asp-controller="Home" asp-action="Index"
+               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                Catálogo
+            </a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Cliente" asp-action="MinhasEncomendas"
+                   class="@(ViewContext.RouteData.Values["action"]?.ToString() == "MinhasEncomendas" ? "active" : "")">
+                    Minhas Encomendas
+                </a>
+            }
+        </nav>
+
+        <div class="pub-actions">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Cliente" asp-action="MinhasEncomendas" class="icbtn" title="Minhas Encomendas">
+                    <i class="bi bi-bag-check"></i>
+                </a>
+                <form asp-controller="Cliente" asp-action="Logout" method="post" class="d-inline">
+                    <button type="submit" class="pub-btn pub-btn-ghost pub-btn-sm">Sair</button>
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Cliente" asp-action="Login" class="pub-btn pub-btn-ghost pub-btn-sm">Entrar</a>
+                <a asp-controller="Cliente" asp-action="Registrar" class="pub-btn pub-btn-primary pub-btn-sm">Criar conta</a>
+            }
+        </div>
+    </div>
+</header>
+
+<!-- ── Conteúdo ───────────────────────────────────────── -->
+<main>
+    @RenderBody()
+</main>
+
+<!-- ── Footer ────────────────────────────────────────── -->
+<footer class="pub-footer">
+    <div class="wrap">
+        <div class="foot-grid">
+            <div class="foot-brand">
+                <a asp-controller="Home" asp-action="Index" class="logo-link">
+                    <span class="logo-symbol" style="font-size:1.8rem;">∞</span>
+                    <div class="logo-name">
+                        <div class="l1">INFINITY</div>
+                        <div class="l2">IMPORTS</div>
+                    </div>
+                </a>
+                <p>Importados originais — perfumaria árabe, skincare coreano e eletrônicos selecionados direto do Paraguai.</p>
+            </div>
+            <div class="foot-col">
+                <h5>Loja</h5>
+                <a asp-controller="Home" asp-action="Index">Catálogo completo</a>
+                <a asp-controller="Cliente" asp-action="Login">Minha conta</a>
+                <a asp-controller="Cliente" asp-action="Registrar">Criar conta</a>
+            </div>
+            <div class="foot-col">
+                <h5>Ajuda</h5>
+                <a href="#">Rastrear encomenda</a>
+                <a href="#">Fale via WhatsApp</a>
+                <a href="#">Política de troca</a>
             </div>
         </div>
-    </nav>
+        <div class="foot-bot">
+            <p>© @DateTime.Now.Year Infinity Imports. Todos os direitos reservados.</p>
+            <p>Produtos importados do Paraguai. Preços em Real (BRL).</p>
+        </div>
+    </div>
+</footer>
 
-    <main>
-        @RenderBody()
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
