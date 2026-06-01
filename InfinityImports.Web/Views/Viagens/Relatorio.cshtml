@@ -35,9 +35,9 @@
     </div>
 </div>
 
-<div class="card p-4 mb-4" style="border-color: @(Model.LucroLiquido >= 0 ? "#198754" : "#dc3545");">
+<div class="card p-4 mb-4 @(Model.LucroLiquido >= 0 ? "border-success" : "border-danger") border-2">
     <h5 class="text-white-50 mb-1">Lucro líquido</h5>
-    <h2 style="color: @(Model.LucroLiquido >= 0 ? "#198754" : "#dc3545");">
+    <h2 class="@(Model.LucroLiquido >= 0 ? "text-success" : "text-danger")">
         R$ @Model.LucroLiquido.ToString("F2")
     </h2>
     <small class="text-white-50">Cotação usada: R$ @Model.CotacaoUsada.ToString("F4")</small>
@@ -67,7 +67,7 @@
                 <td>R$ @item.CustoTotalBrl.ToString("F2")</td>
                 <td>R$ @item.PrecoVendido.ToString("F2")</td>
                 <td>R$ @item.TotalVendido.ToString("F2")</td>
-                <td style="color: @(item.Lucro >= 0 ? "#198754" : "#dc3545");">
+                <td class="@(item.Lucro >= 0 ? "text-success" : "text-danger")">
                     R$ @item.Lucro.ToString("F2")
                 </td>
             </tr>

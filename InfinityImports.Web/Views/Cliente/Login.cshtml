@@ -3,26 +3,35 @@
     Layout = "~/Views/Shared/_LayoutPublico.cshtml";
 }
 
-<div class="container py-5" style="max-width:400px;">
-    <h2 class="text-white mb-4">Entrar</h2>
+<div class="auth-wrap">
+    <div class="auth-card">
+        <h2>Bem-vindo de volta</h2>
+        <p class="sub">Entre na sua conta para acompanhar suas encomendas</p>
 
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div class="alert alert-danger py-2">Email ou senha inválidos.</div>
-    }
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:14px;color:#ef4444;">
+                E-mail ou senha inválidos.
+            </div>
+        }
 
-    <form asp-action="Login" method="post">
-        <div class="mb-3">
-            <label class="form-label">E-mail</label>
-            <input name="email" type="email" class="form-control bg-dark text-white border-secondary" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Senha</label>
-            <input name="senha" type="password" class="form-control bg-dark text-white border-secondary" required />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Entrar</button>
-        <p class="text-center text-white-50 mt-3 small">
-            Não tem conta? <a asp-action="Registrar" style="color:#1A3FD4;">Criar conta</a>
+        <form asp-action="Login" method="post">
+            <div class="pub-field">
+                <label class="pub-label">E-mail</label>
+                <input name="email" type="email" class="pub-input" placeholder="seu@email.com" required />
+            </div>
+            <div class="pub-field">
+                <label class="pub-label">Senha</label>
+                <input name="senha" type="password" class="pub-input" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="pub-btn pub-btn-primary" style="width:100%;justify-content:center;margin-top:8px;">
+                Entrar
+            </button>
+        </form>
+
+        <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--txt-dim);">
+            Não tem conta?
+            <a asp-action="Registrar" style="color:var(--blue-b);text-decoration:none;">Criar conta</a>
         </p>
-    </form>
+    </div>
 </div>

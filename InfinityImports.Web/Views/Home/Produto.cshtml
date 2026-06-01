@@ -4,37 +4,55 @@
     Layout = "~/Views/Shared/_LayoutPublico.cshtml";
 }
 
-<div class="container py-5" style="max-width:720px;">
-    <a asp-action="Index" class="text-white-50 small d-block mb-4">← Voltar ao catálogo</a>
+<div class="produto-detail">
+    <div class="wrap">
+        <a asp-action="Index" class="back-link">← Voltar ao catálogo</a>
 
-    <div class="row g-4">
-        <div class="col-md-5">
-            @if (Model.Foto != null)
-            {
-                <img src="@Model.Foto" class="img-fluid rounded" style="object-fit:cover; width:100%;" />
-            }
-            else
-            {
-                <div style="height:280px; background:#1a1a1a; border-radius:8px; display:flex; align-items:center; justify-content:center;">
-                    <span class="text-white-50">Sem foto</span>
+        <div class="row g-5">
+            <div class="col-md-5">
+                <div class="produto-img-wrap @(Model.Foto == null ? "ph" : "")">
+                    @if (Model.Foto != null)
+                    {
+                        <img src="@Model.Foto" alt="@Model.Nome" />
+                    }
+                    else
+                    {
+                        <span style="font-family:var(--grot);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-dim);">
+                            @Model.Nome
+                        </span>
+                    }
                 </div>
-            }
-        </div>
-        <div class="col-md-7">
-            <p class="text-white-50 small mb-1">@Model.Categoria.Nome</p>
-            <h2 class="text-white">@Model.Nome</h2>
-            <h3 style="color:#1A3FD4;">R$ @Model.PrecoFinal.ToString("F2")</h3>
+            </div>
 
-            @if (ViewBag.ProximaViagem != null)
-            {
-                <p class="text-white-50 mt-3 small">
-                    Próxima viagem ao Paraguai:
-                    <strong class="text-white">@((DateTime)ViewBag.ProximaViagem.DataPrevista).ToString("dd/MM/yyyy")</strong>
-                </p>
-            }
+            <div class="col-md-7 produto-info d-flex flex-column justify-content-center">
+                <span class="cat-label">@Model.Categoria.Nome</span>
+                <h1>@Model.Nome</h1>
+                <div class="produto-preco">R$ @Model.PrecoFinal.ToString("F2")</div>
 
-            <a asp-action="Encomendar" asp-route-produtoId="@Model.Id"
-               class="btn btn-primary mt-3 px-4">Encomendar</a>
+                @if (ViewBag.ProximaViagem != null)
+                {
+                    <div class="viagem-box">
+                        <i class="bi bi-airplane me-2"></i>
+                        Próxima viagem ao Paraguai:
+                        <strong>@((DateTime)ViewBag.ProximaViagem.DataPrevista).ToString("dd/MM/yyyy")</strong>
+                    </div>
+                }
+
+                @if (Model.Estoque > 0)
+                {
+                    <div style="margin-bottom:16px;">
+                        <span style="font-family:var(--grot);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#10b981;">
+                            ✓ @Model.Estoque em estoque
+                        </span>
+                    </div>
+                }
+
+                <a asp-action="Encomendar" asp-route-produtoId="@Model.Id"
+                   class="pub-btn pub-btn-primary" style="width:fit-content;">
+                    Encomendar
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>

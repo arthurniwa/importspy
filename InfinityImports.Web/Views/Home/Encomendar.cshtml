@@ -5,16 +5,36 @@
     var viagem = ViewBag.ProximaViagem as InfinityImports.Core.Models.Viagem;
 }
 
-<div class="container py-5" style="max-width:520px;">
-    <a asp-action="Produto" asp-route-id="@produto!.Id" class="text-white-50 small d-block mb-4">← Voltar</a>
+<div class="encomenda-wrap">
+    <div class="encomenda-header">
+        <a asp-action="Produto" asp-route-id="@produto!.Id" class="back-link">← Voltar</a>
+        <h2 style="font-family:var(--grot);font-weight:700;font-size:28px;margin:12px 0 4px;">Fazer encomenda</h2>
+        <p style="color:var(--txt-soft);font-size:14px;">Preencha os dados para registrar seu pedido</p>
+    </div>
 
-    <h2 class="text-white mb-1">Encomendar</h2>
-    <p class="text-white-50 mb-4">@produto.Nome — <strong style="color:#1A3FD4;">R$ @produto.PrecoFinal.ToString("F2")</strong></p>
+    <div class="encomenda-card">
+        <div class="ec-img @(produto.Foto == null ? "ph" : "")">
+            @if (produto.Foto != null)
+            {
+                <img src="@produto.Foto" alt="@produto.Nome" />
+            }
+            else
+            {
+                <span style="font-size:9px;color:var(--txt-dim);font-family:var(--grot);letter-spacing:.1em;text-transform:uppercase;padding:8px;text-align:center;">SEM FOTO</span>
+            }
+        </div>
+        <div class="ec-info">
+            <small>@produto.Categoria.Nome</small>
+            <b>@produto.Nome</b>
+            <span>R$ @produto.PrecoFinal.ToString("F2")</span>
+        </div>
+    </div>
 
     @if (viagem != null)
     {
-        <div class="alert" style="background:#111; border:1px solid #1A3FD4; color:#fff;">
-            Próxima viagem: <strong>@viagem.DataPrevista.ToString("dd/MM/yyyy")</strong>
+        <div class="info-box">
+            <i class="bi bi-airplane me-2"></i>
+            Próxima viagem ao Paraguai: <strong>@viagem.DataPrevista.ToString("dd/MM/yyyy")</strong>
         </div>
     }
 
@@ -22,23 +42,25 @@
         <input type="hidden" name="ProdutoId" value="@produto.Id" />
         <input type="hidden" name="ViagemId" value="@viagem?.Id" />
 
-        <div class="mb-3">
-            <label class="form-label">Seu nome</label>
-            <input name="ClienteNome" class="form-control bg-dark text-white border-secondary" required />
+        <div class="pub-field">
+            <label class="pub-label">Seu nome</label>
+            <input name="ClienteNome" class="pub-input" placeholder="Nome completo" required />
         </div>
-        <div class="mb-3">
-            <label class="form-label">WhatsApp</label>
-            <input name="ClienteTelefone" class="form-control bg-dark text-white border-secondary" required />
+        <div class="pub-field">
+            <label class="pub-label">WhatsApp</label>
+            <input name="ClienteTelefone" class="pub-input" placeholder="(00) 00000-0000" required />
         </div>
-        <div class="mb-3">
-            <label class="form-label">Quantidade</label>
-            <input name="Quantidade" type="number" min="1" value="1"
-                   class="form-control bg-dark text-white border-secondary" required />
+        <div class="pub-field">
+            <label class="pub-label">Quantidade</label>
+            <input name="Quantidade" type="number" min="1" value="1" class="pub-input" required />
         </div>
-        <div class="mb-3">
-            <label class="form-label">Observações</label>
-            <textarea name="Observacoes" rows="2" class="form-control bg-dark text-white border-secondary"></textarea>
+        <div class="pub-field">
+            <label class="pub-label">Observações <span style="color:var(--txt-dim);font-weight:400;">(opcional)</span></label>
+            <textarea name="Observacoes" class="pub-input" placeholder="Cor, tamanho, ou qualquer detalhe..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Confirmar Encomenda</button>
+
+        <button type="submit" class="pub-btn pub-btn-primary w-100 mt-2" style="width:100%;justify-content:center;">
+            Confirmar Encomenda
+        </button>
     </form>
 </div>

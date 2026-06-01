@@ -131,6 +131,29 @@ public class ProdutosController : Controller
     }
 
     [HttpPost]
+    public async Task<IActionResult> ExcluirPermanente(int id)
+    {
+        var produto = await _context.Produtos
+            .Include(p => p.Encomendas)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (produto == null) return NotFound();
+
+        _context.Encomendas.RemoveRange(produto.Encomendas);
+
+        if (produto.Foto != null)
+        {
+            var caminhoFisico = Path.Combine("wwwroot", produto.Foto.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+            if (System.IO.File.Exists(caminhoFisico))
+                System.IO.File.Delete(caminhoFisico);
+        }
+
+        _context.Produtos.Remove(produto);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
     public async Task<IActionResult> Reativar(int id)
     {
         var produto = await _context.Produtos.FindAsync(id);

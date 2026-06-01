@@ -3,39 +3,46 @@
     Layout = "~/Views/Shared/_LayoutPublico.cshtml";
 }
 
-<div class="container py-5" style="max-width:480px;">
-    <h2 class="text-white mb-4">Criar Conta</h2>
+<div class="auth-wrap">
+    <div class="auth-card">
+        <h2>Criar conta</h2>
+        <p class="sub">Cadastre-se para acompanhar suas encomendas</p>
 
-    @if (ViewBag.Erros != null)
-    {
-        <div class="alert alert-danger">
-            @foreach (var erro in ViewBag.Erros as List<string>)
-            {
-                <div>@erro</div>
-            }
-        </div>
-    }
+        @if (ViewBag.Erros != null)
+        {
+            <div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:14px;color:#ef4444;">
+                @foreach (var erro in ViewBag.Erros as List<string>)
+                {
+                    <div>@erro</div>
+                }
+            </div>
+        }
 
-    <form asp-action="Registrar" method="post">
-        <div class="mb-3">
-            <label class="form-label">Nome completo</label>
-            <input name="nomeCompleto" class="form-control bg-dark text-white border-secondary" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">E-mail</label>
-            <input name="email" type="email" class="form-control bg-dark text-white border-secondary" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">WhatsApp</label>
-            <input name="telefone" class="form-control bg-dark text-white border-secondary" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Senha</label>
-            <input name="senha" type="password" class="form-control bg-dark text-white border-secondary" required />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Criar conta</button>
-        <p class="text-center text-white-50 mt-3 small">
-            Já tem conta? <a asp-action="Login" style="color:#1A3FD4;">Entrar</a>
+        <form asp-action="Registrar" method="post">
+            <div class="pub-field">
+                <label class="pub-label">Nome completo</label>
+                <input name="nomeCompleto" class="pub-input" placeholder="Seu nome" required />
+            </div>
+            <div class="pub-field">
+                <label class="pub-label">E-mail</label>
+                <input name="email" type="email" class="pub-input" placeholder="seu@email.com" required />
+            </div>
+            <div class="pub-field">
+                <label class="pub-label">WhatsApp</label>
+                <input name="telefone" class="pub-input" placeholder="(00) 00000-0000" required />
+            </div>
+            <div class="pub-field">
+                <label class="pub-label">Senha</label>
+                <input name="senha" type="password" class="pub-input" placeholder="Mínimo 6 caracteres" required />
+            </div>
+            <button type="submit" class="pub-btn pub-btn-primary" style="width:100%;justify-content:center;margin-top:8px;">
+                Criar conta
+            </button>
+        </form>
+
+        <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--txt-dim);">
+            Já tem conta?
+            <a asp-action="Login" style="color:var(--blue-b);text-decoration:none;">Entrar</a>
         </p>
-    </form>
+    </div>
 </div>
