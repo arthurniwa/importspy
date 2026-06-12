@@ -1,0 +1,87 @@
+@model IEnumerable<InfinityImports.Core.Models.SolicitacaoEspecial>
+@{
+    ViewData["Title"] = "Minhas Solicitações";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+
+    string BadgeClass(InfinityImports.Core.Models.StatusSolicitacao s) => s switch
+    {
+        InfinityImports.Core.Models.StatusSolicitacao.Solicitada => "pub-badge-blue",
+        InfinityImports.Core.Models.StatusSolicitacao.Orcada => "pub-badge-cyan",
+        InfinityImports.Core.Models.StatusSolicitacao.AprovadaPeloCliente => "pub-badge-green",
+        InfinityImports.Core.Models.StatusSolicitacao.RecusadaPeloCliente => "pub-badge-red",
+        InfinityImports.Core.Models.StatusSolicitacao.RecusadaPelaLoja => "pub-badge-red",
+        InfinityImports.Core.Models.StatusSolicitacao.ConvertidaEmEncomenda => "pub-badge-green",
+        _ => "pub-badge-blue"
+    };
+
+    string Rotulo(InfinityImports.Core.Models.StatusSolicitacao s) => s switch
+    {
+        InfinityImports.Core.Models.StatusSolicitacao.Solicitada => "Aguardando orçamento",
+        InfinityImports.Core.Models.StatusSolicitacao.Orcada => "Orçamento recebido",
+        InfinityImports.Core.Models.StatusSolicitacao.RecusadaPeloCliente => "Você recusou",
+        InfinityImports.Core.Models.StatusSolicitacao.RecusadaPelaLoja => "Loja recusou",
+        InfinityImports.Core.Models.StatusSolicitacao.ConvertidaEmEncomenda => "Aprovada — virou encomenda",
+        _ => s.ToString()
+    };
+}
+
+<section style="padding:60px 20px 80px;">
+    <div class="wrap" style="max-width:800px;">
+        <h1 style="font-family:var(--grot);font-weight:700;font-size:32px;margin:0 0 24px;">Minhas Solicitações</h1>
+
+        @if (!Model.Any())
+        {
+            <div class="info-box" style="text-align:center;padding:32px;">
+                <div style="font-size:48px;margin-bottom:8px;">📋</div>
+                <p style="margin:0 0 12px;">Você ainda não fez nenhuma solicitação especial.</p>
+                <a asp-action="Criar" class="pub-btn pub-btn-primary">Criar minha primeira</a>
+            </div>
+        }
+        else
+        {
+            <div style="display:grid;gap:16px;">
+                @foreach (var s in Model)
+                {
+                    <div class="encomenda-card" style="display:block;padding:20px;">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+                            <div>
+                                <small style="color:var(--txt-dim);">@s.DataSolicitacao.ToString("dd/MM/yyyy")</small>
+                                <b style="display:block;font-size:18px;margin:4px 0;">@s.NomeProduto</b>
+                                <span style="color:var(--txt-soft);font-size:13px;">Qtd: @s.Quantidade</span>
+                            </div>
+                            <span class="pub-badge @BadgeClass(s.Status)">@Rotulo(s.Status)</span>
+                        </div>
+
+                        @if (s.Status == InfinityImports.Core.Models.StatusSolicitacao.Orcada)
+                        {
+                            <div class="info-box" style="margin-top:16px;">
+                                <div><strong>Preço orçado:</strong> R$ @s.PrecoOrcado?.ToString("F2")</div>
+                                @if (s.ViagemPrevista != null)
+                                {
+                                    <div><strong>Viagem prevista:</strong> @s.ViagemPrevista.DataPrevista.ToString("dd/MM/yyyy")</div>
+                                }
+                            </div>
+                            <div style="display:flex;gap:8px;margin-top:12px;">
+                                <form asp-action="Aprovar" asp-route-id="@s.Id" method="post"
+                                      onsubmit="return confirm('Confirmar aprovação? Virá uma encomenda firme.');">
+                                    <button type="submit" class="pub-btn pub-btn-primary">Aprovar orçamento</button>
+                                </form>
+                                <form asp-action="Recusar" asp-route-id="@s.Id" method="post"
+                                      onsubmit="return confirm('Recusar este orçamento?');">
+                                    <button type="submit" class="pub-btn pub-btn-ghost">Recusar</button>
+                                </form>
+                            </div>
+                        }
+
+                        @if (s.Status == InfinityImports.Core.Models.StatusSolicitacao.RecusadaPelaLoja && !string.IsNullOrEmpty(s.MotivoRecusaLoja))
+                        {
+                            <div class="info-box" style="margin-top:12px;">
+                                <strong>Motivo:</strong> @s.MotivoRecusaLoja
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

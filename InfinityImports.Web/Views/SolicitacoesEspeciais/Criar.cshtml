@@ -1,0 +1,54 @@
+@model InfinityImports.Core.Models.SolicitacaoEspecial
+@{
+    ViewData["Title"] = "Encomenda Especial";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+}
+
+<div class="encomenda-wrap">
+    <div class="encomenda-header">
+        <a asp-controller="Home" asp-action="Index" class="back-link">← Voltar ao catálogo</a>
+        <h2 style="font-family:var(--grot);font-weight:700;font-size:28px;margin:12px 0 4px;">Encomenda Especial</h2>
+        <p style="color:var(--txt-soft);font-size:14px;">Não achou no catálogo? Diga o que você quer, nós cotamos no Paraguai e te enviamos o orçamento.</p>
+    </div>
+
+    <div class="info-box">
+        <i class="bi bi-info-circle me-2"></i>
+        Após enviar, vamos pesquisar o preço e responder com um orçamento — você decide se aprova.
+    </div>
+
+    <form asp-action="Criar" method="post">
+        <div class="pub-field">
+            <label class="pub-label">O que você quer encomendar?</label>
+            <input name="NomeProduto" class="pub-input" placeholder="Ex.: iPhone 15 Pro Max 256GB Titânio Natural" required />
+        </div>
+
+        <div class="pub-field">
+            <label class="pub-label">Link de referência <span style="color:var(--txt-dim);font-weight:400;">(opcional)</span></label>
+            <input name="LinkReferencia" type="url" class="pub-input" placeholder="https://..." />
+        </div>
+
+        <div class="pub-field">
+            <label class="pub-label">Quantidade</label>
+            <input name="Quantidade" type="number" min="1" value="1" class="pub-input" required />
+        </div>
+
+        <div class="pub-field">
+            <label class="pub-label">Observações <span style="color:var(--txt-dim);font-weight:400;">(opcional)</span></label>
+            <textarea name="Observacoes" class="pub-input" rows="3" placeholder="Cor, modelo, capacidade ou qualquer detalhe..."></textarea>
+        </div>
+
+        <div class="pub-field">
+            <label class="pub-label">Nome para contato</label>
+            <input name="ClienteNome" class="pub-input" placeholder="Nome completo" required />
+        </div>
+
+        <div class="pub-field">
+            <label class="pub-label">WhatsApp</label>
+            <input name="ClienteTelefone" class="pub-input" placeholder="(00) 00000-0000" required />
+        </div>
+
+        <button type="submit" class="pub-btn pub-btn-primary w-100 mt-2" style="width:100%;justify-content:center;">
+            Enviar solicitação
+        </button>
+    </form>
+</div>

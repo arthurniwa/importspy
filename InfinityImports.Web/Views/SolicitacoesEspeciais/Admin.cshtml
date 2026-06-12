@@ -1,0 +1,73 @@
+@model IEnumerable<InfinityImports.Core.Models.SolicitacaoEspecial>
+@{
+    ViewData["Title"] = "Solicitações Especiais";
+
+    string BadgeClass(InfinityImports.Core.Models.StatusSolicitacao s) => s switch
+    {
+        InfinityImports.Core.Models.StatusSolicitacao.Solicitada => "ii-badge-yellow",
+        InfinityImports.Core.Models.StatusSolicitacao.Orcada => "ii-badge-info",
+        InfinityImports.Core.Models.StatusSolicitacao.AprovadaPeloCliente => "ii-badge-green",
+        InfinityImports.Core.Models.StatusSolicitacao.RecusadaPeloCliente => "ii-badge-red",
+        InfinityImports.Core.Models.StatusSolicitacao.RecusadaPelaLoja => "ii-badge-gray",
+        InfinityImports.Core.Models.StatusSolicitacao.ConvertidaEmEncomenda => "ii-badge-green",
+        _ => "ii-badge-gray"
+    };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <h2 class="ii-page-title mb-0">Solicitações Especiais</h2>
+</div>
+
+<div class="ii-card p-0">
+    <table class="ii-table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Produto desejado</th>
+                <th>Qtd</th>
+                <th>Preço orçado</th>
+                <th>Viagem</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.DataSolicitacao.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                    <td>
+                        @s.ClienteNome
+                        <div style="color:var(--text-3);font-size:.7rem;">@s.ClienteTelefone</div>
+                    </td>
+                    <td>
+                        @s.NomeProduto
+                        @if (!string.IsNullOrEmpty(s.LinkReferencia))
+                        {
+                            <a href="@s.LinkReferencia" target="_blank" rel="noopener"
+                               style="display:block;color:var(--primary);font-size:.7rem;">Ver referência ↗</a>
+                        }
+                    </td>
+                    <td>@s.Quantidade</td>
+                    <td>@(s.PrecoOrcado.HasValue ? $"R$ {s.PrecoOrcado.Value:F2}" : "—")</td>
+                    <td>@(s.ViagemPrevista != null ? s.ViagemPrevista.DataPrevista.ToString("dd/MM/yyyy") : "—")</td>
+                    <td><span class="ii-badge @BadgeClass(s.Status)">@s.Status</span></td>
+                    <td>
+                        <div class="d-flex gap-1 flex-wrap">
+                            @if (s.Status == InfinityImports.Core.Models.StatusSolicitacao.Solicitada)
+                            {
+                                <a asp-action="Orcar" asp-route-id="@s.Id" class="btn-ii btn-ii-primary btn-ii-sm">Orçar</a>
+                                <form asp-action="RecusarPelaLoja" asp-route-id="@s.Id" method="post" class="d-inline"
+                                      onsubmit="event.preventDefault(); const m = prompt('Motivo da recusa:'); if(m){ this.querySelector('input[name=motivo]').value=m; this.submit(); }">
+                                    <input type="hidden" name="motivo" />
+                                    <button type="submit" class="btn-ii btn-ii-danger btn-ii-sm">Recusar</button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -14,6 +14,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Viagem> Viagens => Set<Viagem>();
     public DbSet<Encomenda> Encomendas => Set<Encomenda>();
 
+	public DbSet<SolicitacaoEspecial> SolicitacoesEspeciais => Set<SolicitacaoEspecial>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -37,5 +39,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<CotacaoDolar>()
             .Property(c => c.Valor)
             .HasColumnType("decimal(10,4)");
+
+		builder.Entity<SolicitacaoEspecial>()
+			.Property(s => s.PrecoOrcado)
+			.HasColumnType("decimal(18,2)");
     }
 }

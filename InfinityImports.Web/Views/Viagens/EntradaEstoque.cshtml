@@ -18,7 +18,8 @@
 
     @{
         var produtos = Model.Encomendas
-            .GroupBy(e => e.Produto)
+            .Where(e => e.Produto != null)
+            .GroupBy(e => e.Produto!)
             .Select(g => new { Produto = g.Key, TotalEncomendado = g.Sum(e => e.Quantidade) })
             .ToList();
     }

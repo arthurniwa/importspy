@@ -1,0 +1,25 @@
+@model InfinityImports.Core.Models.SolicitacaoEspecial
+@{
+    ViewData["Title"] = "Solicitação recebida";
+    Layout = "~/Views/Shared/_LayoutPublico.cshtml";
+}
+
+<div class="encomenda-wrap" style="text-align:center;">
+    <div style="font-size:72px;color:#10b981;margin-bottom:8px;">
+        <i class="bi bi-check-circle"></i>
+    </div>
+    <h2 style="font-family:var(--grot);font-weight:700;font-size:28px;margin:12px 0 8px;">Recebemos sua solicitação!</h2>
+    <p style="color:var(--txt-soft);font-size:14px;max-width:480px;margin:0 auto 24px;">
+        Vamos pesquisar o preço de <strong>@Model.NomeProduto</strong> no Paraguai e te enviar o orçamento em breve. Você poderá aprovar ou recusar antes de qualquer cobrança.
+    </p>
+
+    <div class="info-box" style="text-align:left;">
+        <i class="bi bi-clock me-2"></i>
+        Acompanhe o status em <strong>"Minhas Solicitações"</strong>. Avisaremos via WhatsApp assim que o orçamento estiver pronto.
+    </div>
+
+    <div style="margin-top:24px;display:flex;gap:8px;justify-content:center;">
+        <a asp-action="MinhasSolicitacoes" class="pub-btn pub-btn-primary">Ver minhas solicitações</a>
+        <a asp-controller="Home" asp-action="Index" class="pub-btn pub-btn-ghost">Voltar ao catálogo</a>
+    </div>
+</div>
