@@ -13,13 +13,13 @@
         <h2>Encomenda registrada!</h2>
         <p>
             Obrigado, <strong>@Model.ClienteNome</strong>!<br />
-            Sua encomenda de <strong>@Model.Produto.Nome</strong> foi registrada com sucesso.
+            Sua encomenda de <strong>@(Model.Produto?.Nome ?? Model.NomeProdutoSnapshot ?? "—")</strong> foi registrada com sucesso.
         </p>
 
         <div class="conf-detail">
             <div class="conf-row">
                 <span class="conf-lbl">Produto</span>
-                <span class="conf-val">@Model.Produto.Nome</span>
+                <span class="conf-val">@(Model.Produto?.Nome ?? Model.NomeProdutoSnapshot ?? "—")</span>
             </div>
             <div class="conf-row">
                 <span class="conf-lbl">Quantidade</span>

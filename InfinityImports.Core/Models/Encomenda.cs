@@ -24,8 +24,10 @@ public class Encomenda
     public DateTime DataEncomenda { get; set; } = DateTime.UtcNow;
     public string? Observacoes { get; set; }
 
-    public int ProdutoId { get; set; }
-    public Produto Produto { get; set; } = null!;
+    public int? ProdutoId { get; set; }
+    public Produto? Produto { get; set; }
+
+	public string? NomeProdutoSnapshot { get; set; }
 
     public int? ViagemId { get; set; }
     public Viagem? Viagem { get; set; }

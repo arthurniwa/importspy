@@ -45,7 +45,7 @@
                         {
                             <tr>
                                 <td>@e.DataEncomenda.ToLocalTime().ToString("dd/MM/yyyy")</td>
-                                <td>@e.Produto.Nome</td>
+                                <td>@(e.Produto?.Nome ?? e.NomeProdutoSnapshot ?? "—")</td>
                                 <td>@e.Quantidade</td>
                                 <td>R$ @e.PrecoNoMomento.ToString("F2")</td>
                                 <td>@(e.Viagem != null ? e.Viagem.DataPrevista.ToString("dd/MM/yyyy") : "—")</td>

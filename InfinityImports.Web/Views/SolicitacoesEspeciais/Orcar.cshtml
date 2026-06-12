@@ -1,0 +1,55 @@
+@model InfinityImports.Core.Models.SolicitacaoEspecial
+@{
+    ViewData["Title"] = "Orçar Solicitação";
+    var viagens = ViewBag.Viagens as List<InfinityImports.Core.Models.Viagem> ?? new();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="ii-page-title mb-0">Orçar Solicitação</h2>
+    <a asp-action="Admin" class="btn-ii btn-ii-ghost btn-ii-sm">← Voltar</a>
+</div>
+
+<div class="ii-card" style="max-width:640px;">
+    <div style="margin-bottom:1.5rem;">
+        <div style="color:var(--text-3);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;">Cliente</div>
+        <div style="font-weight:600;">@Model.ClienteNome</div>
+        <div style="color:var(--text-2);font-size:.85rem;">@Model.ClienteTelefone</div>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+        <div style="color:var(--text-3);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;">Produto desejado</div>
+        <div style="font-weight:600;">@Model.NomeProduto</div>
+        <div style="color:var(--text-2);font-size:.85rem;">Quantidade: @Model.Quantidade</div>
+        @if (!string.IsNullOrEmpty(Model.LinkReferencia))
+        {
+            <a href="@Model.LinkReferencia" target="_blank" rel="noopener"
+               style="color:var(--primary);font-size:.85rem;">Abrir link de referência ↗</a>
+        }
+        @if (!string.IsNullOrEmpty(Model.Observacoes))
+        {
+            <div style="margin-top:.5rem;color:var(--text-2);font-size:.85rem;">
+                <em>@Model.Observacoes</em>
+            </div>
+        }
+    </div>
+
+    <form asp-action="Orcar" asp-route-id="@Model.Id" method="post">
+        <div style="margin-bottom:1rem;">
+            <label style="display:block;color:var(--text-2);font-size:.85rem;margin-bottom:.35rem;">Preço final em BRL</label>
+            <input name="precoOrcado" type="number" step="0.01" min="0" class="ii-input" required />
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+            <label style="display:block;color:var(--text-2);font-size:.85rem;margin-bottom:.35rem;">Viagem prevista</label>
+            <select name="viagemPrevistaId" class="ii-input" required>
+                <option value="">Selecione...</option>
+                @foreach (var v in viagens)
+                {
+                    <option value="@v.Id">@v.DataPrevista.ToString("dd/MM/yyyy")</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn-ii btn-ii-primary">Enviar orçamento ao cliente</button>
+    </form>
+</div>

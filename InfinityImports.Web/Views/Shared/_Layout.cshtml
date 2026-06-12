@@ -60,6 +60,12 @@
             </a>
         </li>
         <li>
+            <a asp-controller="SolicitacoesEspeciais" asp-action="Admin"
+               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "SolicitacoesEspeciais" ? "active" : "")">
+                <i class="bi bi-chat-square-quote"></i> Solicitações
+            </a>
+        </li>
+        <li>
             <a asp-controller="Viagens" asp-action="Index"
                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Viagens" ? "active" : "")">
                 <i class="bi bi-airplane"></i> Viagens

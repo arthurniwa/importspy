@@ -36,7 +36,7 @@ else
             @foreach (var e in Model.Encomendas)
             {
                 <tr>
-                    <td>@e.Produto.Nome</td>
+                    <td>@(e.Produto?.Nome ?? e.NomeProdutoSnapshot ?? "—")</td>
                     <td>@e.ClienteNome</td>
                     <td>@e.Quantidade</td>
                     <td>R$ @e.PrecoNoMomento.ToString("F2")</td>

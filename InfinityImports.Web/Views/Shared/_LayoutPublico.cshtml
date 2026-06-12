@@ -38,11 +38,19 @@
                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
                 Catálogo
             </a>
+            <a asp-controller="SolicitacoesEspeciais" asp-action="Criar"
+               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "SolicitacoesEspeciais" && ViewContext.RouteData.Values["action"]?.ToString() == "Criar" ? "active" : "")">
+                Encomenda especial
+            </a>
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <a asp-controller="Cliente" asp-action="MinhasEncomendas"
                    class="@(ViewContext.RouteData.Values["action"]?.ToString() == "MinhasEncomendas" ? "active" : "")">
                     Minhas Encomendas
+                </a>
+                <a asp-controller="SolicitacoesEspeciais" asp-action="MinhasSolicitacoes"
+                   class="@(ViewContext.RouteData.Values["action"]?.ToString() == "MinhasSolicitacoes" ? "active" : "")">
+                    Minhas Solicitações
                 </a>
             }
         </nav>
